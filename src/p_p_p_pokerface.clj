@@ -14,14 +14,17 @@
 (defn ^:private rank-frequencies [hand]
   (frequencies (map rank hand)))
 
+(defn ^:private rank-frequency-of? [freq hand]
+  (= freq (apply max (vals (rank-frequencies hand)))))
+
 (defn pair? [hand]
-  (= 2 (apply max (vals (rank-frequencies hand)))))
+  (rank-frequency-of? 2 hand))
 
 (defn three-of-a-kind? [hand]
-  nil)
+  (rank-frequency-of? 3 hand))
 
 (defn four-of-a-kind? [hand]
-  nil)
+  (rank-frequency-of? 4 hand))
 
 (defn flush? [hand]
   nil)
