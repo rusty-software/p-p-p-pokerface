@@ -1,18 +1,21 @@
 (ns p-p-p-pokerface)
 
 (defn rank [card]
-  (let [[r s] card
+  (let [[r _] card
         upper-ranks {\T 10 \J 11 \Q 12 \K 13 \A 14}]
     (if (Character/isDigit r)
       (Integer/valueOf (str r))
       (get upper-ranks r))))
 
 (defn suit [card]
-  (let [[r s] card]
+  (let [[_ s] card]
     (str s)))
 
+(defn ^:private rank-frequencies [hand]
+  (frequencies (map rank hand)))
+
 (defn pair? [hand]
-  nil)
+  (= 2 (apply max (vals (rank-frequencies hand)))))
 
 (defn three-of-a-kind? [hand]
   nil)
