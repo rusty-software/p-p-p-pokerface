@@ -11,8 +11,14 @@
   (let [[_ s] card]
     (str s)))
 
+(defn ^:private kv-frequencies [kv hand]
+  (frequencies (map kv hand)))
+
 (defn ^:private rank-frequencies [hand]
-  (frequencies (map rank hand)))
+  (kv-frequencies rank hand))
+
+(defn ^:private suit-frequencies [hand]
+  (kv-frequencies suit hand))
 
 (defn ^:private rank-frequency-of? [freq hand]
   (= freq (apply max (vals (rank-frequencies hand)))))
@@ -27,7 +33,7 @@
   (rank-frequency-of? 4 hand))
 
 (defn flush? [hand]
-  nil)
+  (= 1 (first (vals (suit-frequencies hand)))))
 
 (defn full-house? [hand]
   nil)
