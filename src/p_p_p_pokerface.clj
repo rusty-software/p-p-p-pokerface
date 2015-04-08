@@ -36,7 +36,8 @@
   (= 1 (first (vals (suit-frequencies hand)))))
 
 (defn full-house? [hand]
-  nil)
+  (and (pair? hand)
+       (three-of-a-kind? hand)))
 
 (defn two-pairs? [hand]
   nil)
