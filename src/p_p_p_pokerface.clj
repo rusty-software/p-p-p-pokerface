@@ -20,27 +20,29 @@
 (defn ^:private suit-frequencies [hand]
   (kv-frequencies suit hand))
 
-(defn ^:private rank-frequency-of? [freq hand]
-  (= freq (apply max (vals (rank-frequencies hand)))))
+(defn ^:private proper-size-and-rank? [hand size rank-count]
+  (let [rank-counts (vals (rank-frequencies hand))]
+    (and (= size (count rank-counts))
+         (not (nil? (some #{rank-count} rank-counts))))))
 
 (defn pair? [hand]
-  (rank-frequency-of? 2 hand))
+  (proper-size-and-rank? hand 4 2))
 
 (defn three-of-a-kind? [hand]
-  (rank-frequency-of? 3 hand))
+  (proper-size-and-rank? hand 3 3))
 
 (defn four-of-a-kind? [hand]
-  (rank-frequency-of? 4 hand))
+  (proper-size-and-rank? hand 2 4))
 
 (defn flush? [hand]
-  (= 1 (first (vals (suit-frequencies hand)))))
+  (= 5 (first (vals (suit-frequencies hand)))))
 
 (defn full-house? [hand]
-  (and (pair? hand)
-       (three-of-a-kind? hand)))
+  (and (proper-size-and-rank? hand 2 3)
+       (proper-size-and-rank? hand 2 2)))
 
 (defn two-pairs? [hand]
-  nil)
+  (proper-size-and-rank? hand 3 2))
 
 (defn straight? [hand]
   nil)
